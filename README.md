@@ -1,13 +1,26 @@
-# algorithm-and-datastructure
+## 
+- トポロジカルソート: DAGの各頂点を辺の向きに沿うように一列に並べる。DAGであることと、トポロジカルソート可能であることは等価
+- 強連結成分分解: 強連結成分（SCC, Strongly Connected Component:有向グラフにおいて、互いに行き来が可能な頂点の集合）を求める
 
-graph
-- https://networkx.org/documentation/stable//reference/algorithms/generated/networkx.algorithms.flow.minimum_cut.html
-- [グラフネットワーク　フロー・カット](https://www.slideshare.net/hcpc_hokudai/flow-cut)
-- [最大フロー・最小カットの求め方](https://www.momoyama-usagi.com/entry/math/risan15)
-- [赤黒木](https://yottagin.com/?p=4629)
-- [最小全域木　プリム法とクラスカル法](https://qiita.com/Kept1994/items/051594a52dee5f8a4d3f)
+## 最短経路問題
+- Bellman-Ford法: 始点から他の全ての頂点への最短経路を求める
+- Dijkstra法: 負のコストの辺がない。始点から他の全ての頂点への最短経路を求める
+- Warshall-Floyd法: すべての2頂点間の最短距離を求める
 
-union-find
-- https://www.slideshare.net/chokudai/union-find-49066733?ref=https://pyteyon.hatenablog.com/
-- https://pyteyon.hatenablog.com/entry/2019/03/11/200000#%E7%B4%A0%E9%9B%86%E5%90%88%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0%E3%81%A8-Union-Find
-- https://qiita.com/white1107/items/52fd4149bb1846862e38
+## NP完全
+- SAT（充足可能性問題）: 論理式全体の値を「真」にする真偽値x1,x2...の組み合わせは存在するかを求める
+- 頂点被覆問題:
+- ハミルトン閉路問題: グラフにおける全ての頂点を一度だけ通る閉路が存在するかを求める
+
+## NP困難
+- 巡回セールスマン問題: 都市間移動における総移動コストの最小化問題、問題の大きさは都市数
+- ナップザック問題:
+- 最小頂点被覆問題: グラフG(V,E)の各枝 e について端点のいずれか少なくとも一方が、V' に含まれるような Vの部分集合 V' のうち、|V'|=k となるものが存在するか、または|V'|の最小値を求める
+- 最大独立集合問題: グラフG(V,E)に対して、頂点集合 V'⊆V のうち V' 内の頂点間に枝が存在しないようなもの（独立集合）で大きさが最大のものを求める。最小頂点被覆問題と等価。
+- 最大クリーク問題: グラフ中のクリーク（任意の二頂点間に枝があるような頂点集合）の中で最大のものを見つける問題。補グラフに対する最大独立集合問題と等価。
+
+最大安定問題は、選ばれた点間で辺がない。最大クリーク問題は、選ばれた点間で辺がある。
+
+## 近似アルゴリズム
+- 貪欲法(Greedy Algorithm): 
+- 局所探索法(Local Search Algorithm): 

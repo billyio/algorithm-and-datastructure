@@ -1,52 +1,45 @@
-from collections import deque, defaultdict
+# https://zehnpaard.hatenablog.com/entry/2018/06/26/201512
+# v:ノードの数、n:辺の数、es:各辺を表す親ノード、小ノードのペア
 
-N, M = map(int, input().split())
-ab = []
-for _ in range(N + M - 1):
-    ab.append(tuple(map(int, input().split())))
+# outs: 各ノードから出ていく先のノードのリストの辞書
+# ins: 各ノードの入次数の辞書
 
-in_cnt = defaultdict(int)
+# q: 入次数が0のノードのキュー
+# res: 求める答え。各頂点の親を出力、木の根なら0を出力
+
+# キューの頭のノードを取り出し、ソートされたリストの次のメンバとしてappend
+# そのノードから伸びる各辺について
+#   その行き先のノードの入次数を１減らし
+#   もしそのノードの入次数が0に落ちたらキューに入れる
+
+# outsとinsの作成にO(E)、qの作成にO(V)
+# resの作成のループはO(V+E)（外側のループがO(V)回、内側のループは合計でO(E)回）
+# 全体的にO(E+V)の計算量
+
+
+from collections import defaultdict, deque
+
+v, n = map(int, input().split())
+es = [[int(x) for x in input().split()] for _ in range(n)]
+
 outs = defaultdict(list)
-for a, b in ab:
-    in_cnt[b - 1] += 1
-    outs[a - 1].append(b - 1)
+ins = defaultdict(int)
+for v1, v2 in es:
+    outs[v1].append(v2)
+    ins[v2] += 1
 
+print(outs)
+print(ins)
+
+q = deque(v1 for v1 in range(v) if ins[v1] == 0)
 res = []
-queue = deque([i for i in range(N) if in_cnt[i] == 0])
-while len(queue) != 0:
-    v = queue.popleft()
-    res.append(v)
-    for v2 in outs[v]:
-        in_cnt[v2] -= 1
-        if in_cnt[v2] == 0:
-            queue.append(v2)
+while q:
+    print(q)
+    v1 = q.popleft()
+    res.append(v1)
+    for v2 in outs[v1]:
+        ins[v2] -= 1
+        if ins[v2] == 0:
+            q.append(v2)
 
-
-# https://yottagin.com/?p=6359
-def topological_sort_bfs(graph):
-    # トポロジカルソートした結果を蓄積する空リスト
-    topological_sorted_list = []
-    queue = collections.deque()
-    # 入力辺を持たないすべてのノードの集合
-    for vertex in graph:
-        indegree = vertex.get_indegree()
-        if indegree == 0:
-            queue.append(vertex)
-    # while S が空ではない do
-    while len(queue) > 0:
-        # S からノード n を削除する
-        current_vertex = queue.popleft()
-        # L に n を追加する
-        topological_sorted_list.append(current_vertex.get_vertex_id())
-        # for each n の出力辺 e とその先のノード m do
-        for neighbor in current_vertex.get_connections():
-            # 辺 e をグラフから削除する
-            neighbor.set_indegree(neighbor.get_indegree() - 1)
-            # if m がその他の入力辺を持っていなければ then
-            if neighbor.get_indegree() == 0:
-                # m を S に追加する
-                queue.append(neighbor)
-    if len(topological_sorted_list) != len(graph.get_vertices()):
-        print("Kahn's algorithm:", '閉路があります。DAGではありません。')
-    else:
-        print("Kahn's algorithm tological sorted list:", topological_sorted_list)
+print(res)
